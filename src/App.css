@@ -1,0 +1,10 @@
+ /* Active nav link styling */
+.nav-link.active {
+  color: #3B82F6 !important;
+  font-weight: 600;
+}
+
+/* Hover effect */
+.nav-link:hover {
+  color: #3B82F6 !important;
+}
