@@ -212,7 +212,7 @@ const Doctors = () => {
                     type="submit"
                     className="btn btn-dark w-100 fw-bold d-flex align-items-center justify-content-center"
                   >
-                    <FaCalendarCheck className="me-2" /> Confirm Appointment
+                    <FaCalendarCheck className="me-2" /> Confirm Appointmentt
                   </button>
                 </form>
               </div>

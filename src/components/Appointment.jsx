@@ -12,99 +12,129 @@ const doctors = [
 
 const Appointment = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [formData, setFormData] = useState({ name: "", date: "", time: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", mobile: "" });
+  const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`✅ Appointment booked with ${selectedDoctor.name} on ${formData.date} at ${formData.time}`);
+    alert(`✅ Appointment booked with ${selectedDoctor.name}
+📧 Email: ${formData.email}
+📱 Mobile: ${formData.mobile}`);
     setSelectedDoctor(null);
-    setFormData({ name: "", date: "", time: "" });
+    setFormData({ name: "", email: "", mobile: "" });
   };
+
+  // Filter doctors based on search
+  const filteredDoctors = doctors.filter(
+    (doc) =>
+      doc.name.toLowerCase().includes(search.toLowerCase()) ||
+      doc.specialty.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <section className="py-5 bg-light min-vh-100">
       <div className="container">
         <h2 className="text-center fw-bold text-dark mb-3">Book Your Appointment</h2>
-        <p className="text-center text-muted mb-5">
-          Choose from our team of highly qualified doctors and schedule your appointment at your convenience.
+        <p className="text-center text-muted mb-4">
+          Choose from our team of highly qualified doctors and schedule your appointment.
         </p>
+
+        {/* Search Input */}
+        <div className="row justify-content-center mb-5">
+          <div className="col-md-6">
+            <input
+              type="text"
+              placeholder="Search by doctor name or specialty..."
+              className="form-control"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        </div>
 
         {/* Doctor List */}
         <div className="row g-4">
-          {doctors.map((doc) => (
-            <div key={doc.id} className="col-sm-6 col-md-4 col-lg-3">
-              <div className="card shadow-sm h-100 text-center border-0">
-                <img
-                  src={doc.image}
-                  alt={doc.name}
-                  className="card-img-top rounded-circle mx-auto mt-4"
-                  style={{ width: "100px", height: "100px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title fw-semibold">{doc.name}</h5>
-                  <p className="card-text text-primary fw-medium">{doc.specialty}</p>
-                  <button
-                    onClick={() => setSelectedDoctor(doc)}
-                    className="btn btn-dark w-100"
-                  >
-                    Book Appointment
-                  </button>
+          {filteredDoctors.length > 0 ? (
+            filteredDoctors.map((doc) => (
+              <div key={doc.id} className="col-sm-6 col-md-4 col-lg-3">
+                <div className="card shadow-sm h-100 text-center border-0">
+                  <img
+                    src={doc.image}
+                    alt={doc.name}
+                    className="card-img-top rounded-circle mx-auto mt-4"
+                    style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title fw-semibold">{doc.name}</h5>
+                    <p className="card-text text-primary fw-medium">{doc.specialty}</p>
+                    <button
+                      onClick={() => setSelectedDoctor(doc)}
+                      className="btn btn-dark w-100"
+                    >
+                      Book Appointment
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-danger">No doctors found</p>
+          )}
         </div>
 
-        {/* Appointment Form */}
+        {/* Popup Form (Modal Style) */}
         {selectedDoctor && (
-          <div className="row justify-content-center mt-5">
-            <div className="col-md-6">
-              <div className="card shadow-lg border-0">
-                <div className="card-body">
-                  <h4 className="text-center fw-bold mb-4">
-                    Book Appointment with <span className="text-primary">{selectedDoctor.name}</span>
-                  </h4>
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                      <input
-                        type="text"
-                        placeholder="Your Name"
-                        className="form-control"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <input
-                        type="date"
-                        className="form-control"
-                        value={formData.date}
-                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <input
-                        type="time"
-                        className="form-control"
-                        value={formData.time}
-                        onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <button type="submit" className="btn btn-success w-100 mb-2">
-                      ✅ Confirm Appointment
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedDoctor(null)}
-                      className="btn btn-outline-secondary w-100"
-                    >
-                      Cancel
-                    </button>
-                  </form>
-                </div>
+          <div
+            className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+            style={{ background: "rgba(0,0,0,0.5)", zIndex: 1050 }}
+          >
+            <div className="card shadow-lg border-0" style={{ maxWidth: "500px", width: "100%" }}>
+              <div className="card-body">
+                <h4 className="text-center fw-bold mb-4">
+                  Book Appointment with <span className="text-primary">{selectedDoctor.name}</span>
+                </h4>
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <input
+                      type="text"
+                      placeholder="Your Name"
+                      className="form-control"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <input
+                      type="email"
+                      placeholder="Your Email"
+                      className="form-control"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <input
+                      type="tel"
+                      placeholder="Your Mobile Number"
+                      className="form-control"
+                      value={formData.mobile}
+                      onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-success w-100 mb-2">
+                    ✅ Confirm Appointment
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedDoctor(null)}
+                    className="btn btn-outline-secondary w-100"
+                  >
+                    Cancel
+                  </button>
+                </form>
               </div>
             </div>
           </div>
