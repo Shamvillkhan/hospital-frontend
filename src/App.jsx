@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import Cure from './components/Cure';
 import Appointment from './components/Appointment';
 import Blogs from './components/Blogs';
+import BlogForm from './components/BlogForm';
 function App() {
  
 
@@ -28,6 +29,9 @@ function App() {
         <Route path="/testimonial" element={<Testimonial/>} />
         <Route path="/faq" element={<FAQ/>} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/add-blog" element={<BlogForm/>} />
+        
+        <Route path="/update-blog/:id" element={<BlogForm />} />
       </Routes>
 
   {/* <Testimonial/> */}

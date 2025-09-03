@@ -5,7 +5,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstag
 const Footer = () => {
   const styles = {
     footer: {
-      backgroundColor: "#0F172A", // dark blue healthcare theme
+      backgroundColor: "#000000ff", // dark blue healthcare theme
       padding: "4rem 0 2rem",
       fontFamily: "'Inter', sans-serif",
       color: "#E5E7EB",
@@ -14,21 +14,21 @@ const Footer = () => {
       fontSize: "1.25rem",
       fontWeight: "600",
       marginBottom: "1.5rem",
-      color: "#ffffff",
+      color: "#ffffffff",
     },
     listItem: {
       marginBottom: "0.75rem",
-      color: "#CBD5E1",
+      color: "#ffffffff",
       cursor: "pointer",
     },
     listItemHover: {
-      color: "#38BDF8",
+      color: "#ffffffff",
     },
     copyright: {
       marginTop: "3rem",
       paddingTop: "1.5rem",
-      borderTop: "1px solid #334155",
-      color: "#94A3B8",
+      borderTop: "1px solid #ffffffff",
+      color: "#ffffffff",
       textAlign: "center",
     },
     appBadge: {
@@ -36,18 +36,18 @@ const Footer = () => {
       marginRight: "1rem",
       marginBottom: "1rem",
       borderRadius: "6px",
-      backgroundColor: "#fff",
+      backgroundColor: "#000000ff",
       padding: "2px",
     },
     contactItem: {
       display: "flex",
       alignItems: "center",
       marginBottom: "0.75rem",
-      color: "#CBD5E1",
+      color: "#ffffffff",
     },
     icon: {
       marginRight: "10px",
-      color: "#38BDF8",
+      color: "#ffffffff",
     },
     socialIcons: {
       display: "flex",
@@ -56,7 +56,7 @@ const Footer = () => {
     },
     socialIcon: {
       fontSize: "1.25rem",
-      color: "#CBD5E1",
+      color: "#ffffffff",
       cursor: "pointer",
     },
   };
@@ -68,7 +68,7 @@ const Footer = () => {
           {/* Hospital Info */}
           <div className="col-md-3 mb-4">
             <h4 style={styles.sectionTitle}>Our Hospital</h4>
-            <p style={{ color: "#CBD5E1" }}>
+            <p style={{ color: "#ffffffff" }}>
               Providing compassionate healthcare with world-class facilities and expert doctors to ensure your well-being.
             </p>
             <div style={styles.socialIcons}>

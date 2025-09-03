@@ -1,40 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const blogsData = [
-  {
-    id: 1,
-    title: "Heart Health: Tips for a Stronger Heart",
-    author: "Dr. Arjun Mehta",
-    date: "August 20, 2025",
-    image: "https://via.placeholder.com/400x200",
-    excerpt:
-      "Learn about simple lifestyle changes and diet habits that can help you maintain a healthy heart...",
-  },
-  {
-    id: 2,
-    title: "Skincare Essentials for Every Season",
-    author: "Dr. Neha Sharma",
-    date: "August 15, 2025",
-    image: "https://via.placeholder.com/400x200",
-    excerpt:
-      "Changing seasons can affect your skin in many ways. Here are dermatologist-approved tips...",
-  },
-  {
-    id: 3,
-    title: "Back Pain: Causes and Prevention",
-    author: "Dr. Ramesh Kumar",
-    date: "August 10, 2025",
-    image: "https://via.placeholder.com/400x200",
-    excerpt:
-      "Back pain is one of the most common problems today. Learn how to prevent it with simple exercises...",
-  },
-];
-
 const Blogs = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const isAdmin = true; // 👉 abhi ke liye hardcode
+  const navigate = useNavigate();
+
+  // Fetch blogs
+  const fetchBlogs = () => {
+    axios
+      .get("http://localhost:6996/hosp/blogs/getAll")
+      .then((response) => {
+        setBlogs(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching blogs:", error);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  // Delete blog
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this blog?")) return;
+
+    try {
+      await axios.delete(`http://localhost:6996/hosp/blogs/delete/${id}`);
+      alert("Blog deleted successfully!");
+      fetchBlogs();
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+      alert("Failed to delete blog");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-5">
+        <h4>Loading Blogs...</h4>
+      </div>
+    );
+  }
+
   return (
     <div className="container py-5">
-      {/* Heading */}
       <div className="text-center mb-5">
         <h1 className="fw-bold text-dark">Hospital Blogs</h1>
         <p className="text-muted">
@@ -42,30 +59,70 @@ const Blogs = () => {
         </p>
       </div>
 
-      {/* Blog Cards */}
+      <div className="text-end mb-3">
+        <button
+          className="btn btn-success"
+          onClick={() => navigate("/add-blog")}
+        >
+          ➕ Add Blog
+        </button>
+      </div>
+
       <div className="row">
-        {blogsData.map((blog) => (
-          <div key={blog.id} className="col-md-6 col-lg-4 mb-4">
-            <div className="card h-100 shadow-sm border-0">
-              <img
-                src={blog.image}
-                className="card-img-top"
-                alt={blog.title}
-                style={{ height: "200px", objectFit: "cover" }}
-              />
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title fw-bold">{blog.title}</h5>
-                <p className="text-muted small mb-2">
-                  {blog.author} | {blog.date}
-                </p>
-                <p className="card-text">{blog.excerpt}</p>
-                <div className="mt-auto">
-                  <button className="btn btn-dark btn-sm w-100">Read More</button>
+        {blogs.length > 0 ? (
+          blogs.map((blog) => (
+            <div key={blog.id} className="col-md-6 col-lg-4 mb-4">
+              <div className="card h-100 shadow-sm border-0">
+                <img
+                  src={
+                    blog.image
+                      ? `http://localhost:6996/hosp/uploads/${blog.image}`
+                      : "https://via.placeholder.com/400x200"
+                  }
+                  className="card-img-top"
+                  alt={blog.title}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title fw-bold">{blog.title}</h5>
+                  <p className="text-muted small mb-2">
+                    {blog.author} |{" "}
+                    {new Date(blog.createdAt).toLocaleDateString()}
+                  </p>
+                  <p className="card-text">{blog.content}</p>
+
+                  <div className="mt-auto d-flex flex-column gap-2">
+                    <button className="btn btn-dark btn-sm w-100">
+                      Read More
+                    </button>
+
+                    {isAdmin && (
+                      <div className="d-flex gap-2">
+                        <button
+                          className="btn btn-warning btn-sm w-50"
+                          onClick={() => navigate(`/update-blog/${blog.id}`)}
+                        >
+                          Update
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm w-50"
+                          onClick={() => handleDelete(blog.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+          ))
+        ) : (
+          <div className="text-center">
+            <p>No blogs available.</p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

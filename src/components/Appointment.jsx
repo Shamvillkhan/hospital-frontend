@@ -15,13 +15,46 @@ const Appointment = () => {
   const [formData, setFormData] = useState({ name: "", email: "", mobile: "" });
   const [search, setSearch] = useState("");
 
-  const handleSubmit = (e) => {
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Submit form to FormSubmit.co
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`✅ Appointment booked with ${selectedDoctor.name}
-📧 Email: ${formData.email}
-📱 Mobile: ${formData.mobile}`);
-    setSelectedDoctor(null);
-    setFormData({ name: "", email: "", mobile: "" });
+
+    if (!selectedDoctor) return;
+
+    try {
+      const res = await fetch("https://formsubmit.co/shamvillk@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          doctor: selectedDoctor.name,
+          specialty: selectedDoctor.specialty,
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          _captcha: "false",
+          _next: "https://formsubmit.co/thank-you",
+        }),
+      });
+
+      if (res.ok) {
+        alert(`✅ Appointment booked successfully with ${selectedDoctor.name}`);
+        setSelectedDoctor(null);
+        setFormData({ name: "", email: "", mobile: "" });
+      } else {
+        alert("❌ Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("⚠️ Failed to send. Try again later.");
+    }
   };
 
   // Filter doctors based on search
@@ -97,30 +130,33 @@ const Appointment = () => {
                   <div className="mb-3">
                     <input
                       type="text"
+                      name="name"
                       placeholder="Your Name"
                       className="form-control"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={handleChange}
                       required
                     />
                   </div>
                   <div className="mb-3">
                     <input
                       type="email"
+                      name="email"
                       placeholder="Your Email"
                       className="form-control"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={handleChange}
                       required
                     />
                   </div>
                   <div className="mb-3">
                     <input
                       type="tel"
+                      name="mobile"
                       placeholder="Your Mobile Number"
                       className="form-control"
                       value={formData.mobile}
-                      onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                      onChange={handleChange}
                       required
                     />
                   </div>
