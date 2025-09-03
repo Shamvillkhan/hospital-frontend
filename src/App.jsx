@@ -13,6 +13,7 @@ import Cure from './components/Cure';
 import Appointment from './components/Appointment';
 import Blogs from './components/Blogs';
 import BlogForm from './components/BlogForm';
+import DiseaseForm from './components/DiseaseForm';
 function App() {
  
 
@@ -30,6 +31,9 @@ function App() {
         <Route path="/faq" element={<FAQ/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="/add-blog" element={<BlogForm/>} />
+       
+        <Route path="/add" element={<DiseaseForm />} />
+        <Route path="/update/:id" element={<DiseaseForm />} />
         
         <Route path="/update-blog/:id" element={<BlogForm />} />
       </Routes>

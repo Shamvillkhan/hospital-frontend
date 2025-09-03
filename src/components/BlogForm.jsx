@@ -124,7 +124,7 @@ const BlogForm = () => {
               <div className="mt-2">
                 <p>Current Image:</p>
                 <img
-                  src={`http://localhost:6996/hosp/uploads/${id}`} // tu apne backend ke hisaab se path adjust kar
+                  src={`http://localhost:6996/hosp/uploads/${id}`}
                   alt="Old Blog"
                   style={{ width: "150px", borderRadius: "8px" }}
                 />
