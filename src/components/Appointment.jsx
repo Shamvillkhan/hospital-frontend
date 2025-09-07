@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const doctors = [
-  { id: 1, name: "Dr. Ramesh Kumar", specialty: "Cardiologist", image: "https://randomuser.me/api/portraits/men/32.jpg" },
-  { id: 2, name: "Dr. Neha Sharma", specialty: "Dermatologist", image: "https://randomuser.me/api/portraits/women/44.jpg" },
-  { id: 3, name: "Dr. Aman Verma", specialty: "Neurologist", image: "https://randomuser.me/api/portraits/men/67.jpg" },
-  { id: 4, name: "Dr. Pooja Patel", specialty: "Pediatrician", image: "https://randomuser.me/api/portraits/women/50.jpg" },
-  { id: 5, name: "Dr. Sameer Khan", specialty: "Orthopedic", image: "https://randomuser.me/api/portraits/men/40.jpg" },
-  { id: 6, name: "Dr. Anjali Mehta", specialty: "Gynecologist", image: "https://randomuser.me/api/portraits/women/65.jpg" },
-];
-
 const Appointment = () => {
+  const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [formData, setFormData] = useState({ name: "", email: "", mobile: "" });
   const [search, setSearch] = useState("");
+
+  // Fetch doctors from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:6996/hosp/staff/getall")
+      .then((res) => {
+        const doctorsOnly = res.data
+          .filter((staff) => staff.role === "Doctor")
+          .map((doc) => ({
+            id: doc.staffId,
+            name: `${doc.firstName} ${doc.lastName}`,
+            specialty: doc.department?.name || "Unknown",
+            image: doc.image
+              ? `http://localhost:6996/hosp/uploads/${doc.image}`
+              : "https://via.placeholder.com/150",
+          }));
+        setDoctors(doctorsOnly);
+      })
+      .catch((err) => console.error("Error fetching doctors:", err));
+  }, []);
 
   // Handle input change
   const handleChange = (e) => {

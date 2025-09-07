@@ -14,6 +14,10 @@ import Appointment from './components/Appointment';
 import Blogs from './components/Blogs';
 import BlogForm from './components/BlogForm';
 import DiseaseForm from './components/DiseaseForm';
+import ContactForm from './components/ContactForm';
+import AppointmentForm from './components/DoctorAppointment';
+import StaffForm from './components/StaffForm';
+import AddDepartment from './components/AddDepartment';
 function App() {
  
 
@@ -34,6 +38,10 @@ function App() {
        
         <Route path="/add" element={<DiseaseForm />} />
         <Route path="/update/:id" element={<DiseaseForm />} />
+        <Route path="/contactDet" element={<ContactForm />} />
+        <Route path="/doctorappp" element={<AppointmentForm />} />
+        <Route path="/staffform" element={<StaffForm />} />
+        <Route path="/departmentform" element={<AddDepartment />} />
         
         <Route path="/update-blog/:id" element={<BlogForm />} />
       </Routes>

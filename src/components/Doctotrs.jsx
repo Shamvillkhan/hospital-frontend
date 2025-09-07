@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   FaUserMd,
-  FaHeartbeat,
-  FaBrain,
-  FaBone,
   FaUser,
   FaEnvelope,
   FaPhone,
@@ -12,35 +10,44 @@ import {
   FaSearch,
 } from "react-icons/fa";
 
-const doctorsData = [
-  { id: 1, name: "Dr. Arjun Mehta", speciality: "Cardiologist", experience: "10 Years", image: "https://via.placeholder.com/300x200" },
-  { id: 2, name: "Dr. Neha Sharma", speciality: "Dermatologist", experience: "7 Years", image: "https://via.placeholder.com/300x200" },
-  { id: 3, name: "Dr. Ramesh Kumar", speciality: "Orthopedic", experience: "12 Years", image: "https://via.placeholder.com/300x200" },
-  { id: 4, name: "Dr. Priya Singh", speciality: "Neurologist", experience: "8 Years", image: "https://via.placeholder.com/300x200" },
-  { id: 5, name: "Dr. Sameer Patel", speciality: "Cardiologist", experience: "15 Years", image: "https://via.placeholder.com/300x200" },
-];
-
 const Doctors = () => {
-  const [selectedSpeciality, setSelectedSpeciality] = useState("All");
+  const [doctorsData, setDoctorsData] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [formData, setFormData] = useState({ name: "", email: "", mobile: "" });
   const [searchTerm, setSearchTerm] = useState("");
 
-  const specialities = [
-    { name: "All", icon: <FaUserMd className="me-2" /> },
-    { name: "Cardiologist", icon: <FaHeartbeat className="me-2" /> },
-    { name: "Dermatologist", icon: <FaUser className="me-2" /> },
-    { name: "Orthopedic", icon: <FaBone className="me-2" /> },
-    { name: "Neurologist", icon: <FaBrain className="me-2" /> },
-  ];
+  useEffect(() => {
+    // Fetch departments
+    axios
+      .get("http://localhost:6996/hosp/departments/getall")
+      .then((res) => setDepartments(res.data))
+      .catch((err) => console.error("Error fetching departments:", err));
+
+    // Fetch doctors
+    axios
+      .get("http://localhost:6996/hosp/staff/getall")
+      .then((res) => {
+        const doctors = res.data
+          .filter((staff) => staff.role === "Doctor")
+          .map((doc) => ({
+            ...doc,
+            departmentName: doc.department?.name || "Unknown", // read name from department object
+          }));
+        setDoctorsData(doctors);
+      })
+      .catch((err) => console.error("Error fetching doctors:", err));
+  }, []);
 
   const filteredDoctors = doctorsData.filter((doc) => {
-    const matchesSpeciality =
-      selectedSpeciality === "All" || doc.speciality === selectedSpeciality;
+    const matchesDepartment =
+      selectedDepartment === "All" || doc.departmentName === selectedDepartment;
     const matchesSearch =
-      doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doc.speciality.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesSpeciality && matchesSearch;
+      doc.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (doc.departmentName &&
+        doc.departmentName.toLowerCase().includes(searchTerm.toLowerCase()));
+    return matchesDepartment && matchesSearch;
   });
 
   const handleBookClick = (doctor) => {
@@ -55,7 +62,7 @@ const Doctors = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(
-      `Appointment booked with ${selectedDoctor.name}\nName: ${formData.name}\nEmail: ${formData.email}\nMobile: ${formData.mobile}`
+      `Appointment booked with ${selectedDoctor.firstName} ${selectedDoctor.lastName}\nName: ${formData.name}\nEmail: ${formData.email}\nMobile: ${formData.mobile}`
     );
     setSelectedDoctor(null);
   };
@@ -66,18 +73,24 @@ const Doctors = () => {
         {/* Sidebar */}
         <div className="col-md-3 mb-4">
           <div className="p-4 bg-white rounded shadow-sm">
-            <h4 className="mb-3 fw-bold text-dark">Search by Speciality</h4>
-            {specialities.map((spec, index) => (
+            <h4 className="mb-3 fw-bold text-dark">Filter by Department</h4>
+            <button
+              className={`btn w-100 mb-2 fw-semibold ${
+                selectedDepartment === "All" ? "btn-dark" : "btn-outline-dark"
+              }`}
+              onClick={() => setSelectedDepartment("All")}
+            >
+              All
+            </button>
+            {departments.map((dept) => (
               <button
-                key={index}
-                className={`btn w-100 mb-2 d-flex align-items-center justify-content-center fw-semibold ${
-                  selectedSpeciality === spec.name
-                    ? "btn-dark"
-                    : "btn-outline-dark"
+                key={dept.departmentId}
+                className={`btn w-100 mb-2 fw-semibold ${
+                  selectedDepartment === dept.name ? "btn-dark" : "btn-outline-dark"
                 }`}
-                onClick={() => setSelectedSpeciality(spec.name)}
+                onClick={() => setSelectedDepartment(dept.name)}
               >
-                {spec.icon} {spec.name}
+                {dept.name}
               </button>
             ))}
           </div>
@@ -85,7 +98,6 @@ const Doctors = () => {
 
         {/* Doctors List */}
         <div className="col-md-9">
-          {/* 🔍 Search Input */}
           <div className="mb-4">
             <div className="input-group">
               <span className="input-group-text bg-dark text-white">
@@ -93,7 +105,7 @@ const Doctors = () => {
               </span>
               <input
                 type="text"
-                placeholder="Search doctor or speciality..."
+                placeholder="Search doctor or department..."
                 className="form-control border-dark"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -103,20 +115,23 @@ const Doctors = () => {
 
           <div className="row">
             {filteredDoctors.map((doctor) => (
-              <div className="col-md-4 mb-4" key={doctor.id}>
+              <div className="col-md-4 mb-4" key={doctor.staffId}>
                 <div className="card shadow-lg border-0 h-100 rounded-3">
                   <img
-                    src={doctor.image}
-                    alt={doctor.name}
+                    src={
+                      doctor.image
+                        ? `http://localhost:6996/hosp/uploads/${doctor.image}`
+                        : "https://via.placeholder.com/300x200"
+                    }
+                    alt={doctor.firstName + " " + doctor.lastName}
                     className="card-img-top rounded-top"
                     style={{ height: "200px", objectFit: "cover" }}
                   />
                   <div className="card-body text-center">
                     <h5 className="card-title fw-bold text-dark">
-                      {doctor.name}
+                      {doctor.firstName} {doctor.lastName}
                     </h5>
-                    <p className="text-muted mb-1">{doctor.speciality}</p>
-                    <p className="small">Experience: {doctor.experience}</p>
+                    <p className="text-muted mb-1">{doctor.departmentName}</p>
                     <button
                       className="btn btn-dark btn-sm w-100 d-flex align-items-center justify-content-center"
                       onClick={() => handleBookClick(doctor)}
@@ -148,7 +163,8 @@ const Doctors = () => {
               <div className="modal-header bg-dark text-white">
                 <h5 className="modal-title">
                   <FaCalendarCheck className="me-2" />
-                  Book Appointment with {selectedDoctor.name}
+                  Book Appointment with {selectedDoctor.firstName}{" "}
+                  {selectedDoctor.lastName}
                 </h5>
                 <button
                   type="button"
@@ -191,9 +207,7 @@ const Doctors = () => {
                     </div>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label fw-semibold">
-                      Mobile Number
-                    </label>
+                    <label className="form-label fw-semibold">Mobile Number</label>
                     <div className="input-group">
                       <span className="input-group-text">
                         <FaPhone />
@@ -212,7 +226,7 @@ const Doctors = () => {
                     type="submit"
                     className="btn btn-dark w-100 fw-bold d-flex align-items-center justify-content-center"
                   >
-                    <FaCalendarCheck className="me-2" /> Confirm Appointmentt
+                    <FaCalendarCheck className="me-2" /> Confirm Appointment
                   </button>
                 </form>
               </div>

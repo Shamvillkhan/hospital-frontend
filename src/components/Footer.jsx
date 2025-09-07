@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+} from "react-icons/fa";
 
 const Footer = () => {
+  const [contact, setContact] = useState(null);
+
   const styles = {
     footer: {
-      backgroundColor: "#000000ff", // dark blue healthcare theme
+      backgroundColor: "#000000ff",
       padding: "4rem 0 2rem",
       fontFamily: "'Inter', sans-serif",
       color: "#E5E7EB",
@@ -20,9 +30,6 @@ const Footer = () => {
       marginBottom: "0.75rem",
       color: "#ffffffff",
       cursor: "pointer",
-    },
-    listItemHover: {
-      color: "#ffffffff",
     },
     copyright: {
       marginTop: "3rem",
@@ -61,6 +68,18 @@ const Footer = () => {
     },
   };
 
+  useEffect(() => {
+    // Fetch only active contact detail from backend
+    axios
+      .get("http://localhost:6996/hosp/contactdetail/active")
+      .then((res) => {
+        setContact(res.data[0]); // assuming you get an array, take first
+      })
+      .catch((err) => {
+        console.error("Error fetching contact detail:", err);
+      });
+  }, []);
+
   return (
     <footer style={styles.footer}>
       <div className="container">
@@ -69,12 +88,25 @@ const Footer = () => {
           <div className="col-md-3 mb-4">
             <h4 style={styles.sectionTitle}>Our Hospital</h4>
             <p style={{ color: "#ffffffff" }}>
-              Providing compassionate healthcare with world-class facilities and expert doctors to ensure your well-being.
+              Providing compassionate healthcare with world-class facilities and
+              expert doctors to ensure your well-being.
             </p>
             <div style={styles.socialIcons}>
-              <FaFacebook style={styles.socialIcon} />
-              <FaTwitter style={styles.socialIcon} />
-              <FaInstagram style={styles.socialIcon} />
+              {contact?.facebook && (
+                <a href={contact.facebook} target="_blank" rel="noreferrer">
+                  <FaFacebook style={styles.socialIcon} />
+                </a>
+              )}
+              {contact?.twitter && (
+                <a href={contact.twitter} target="_blank" rel="noreferrer">
+                  <FaTwitter style={styles.socialIcon} />
+                </a>
+              )}
+              {contact?.instagram && (
+                <a href={contact.instagram} target="_blank" rel="noreferrer">
+                  <FaInstagram style={styles.socialIcon} />
+                </a>
+              )}
             </div>
           </div>
 
@@ -104,13 +136,13 @@ const Footer = () => {
           <div className="col-md-3 mb-4">
             <h4 style={styles.sectionTitle}>Contact Us</h4>
             <div style={styles.contactItem}>
-              <FaPhoneAlt style={styles.icon} /> +1 (555) 123-4567
+              <FaPhoneAlt style={styles.icon} /> {contact?.phone || "N/A"}
             </div>
             <div style={styles.contactItem}>
-              <FaEnvelope style={styles.icon} /> info@hospital.com
+              <FaEnvelope style={styles.icon} /> {contact?.email || "N/A"}
             </div>
             <div style={styles.contactItem}>
-              <FaMapMarkerAlt style={styles.icon} /> 123 Health St, Wellness City
+              <FaMapMarkerAlt style={styles.icon} /> {contact?.address || "N/A"}
             </div>
             <div className="d-flex flex-column mt-3">
               <img

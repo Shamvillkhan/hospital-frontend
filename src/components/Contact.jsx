@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaUser, FaEnvelope, FaTag, FaCommentDots, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaTag,
+  FaCommentDots,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +19,25 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState(""); // success/error msg
+  const [contactDetail, setContactDetail] = useState(null); // backend contact details
+
+  // Fetch contact details from backend
+  useEffect(() => {
+    const fetchContactDetail = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:6996/hosp/contactdetail/active"
+        );
+        if (res.data && res.data.length > 0) {
+          setContactDetail(res.data[0]); // first active contact
+        }
+      } catch (error) {
+        console.error("Error fetching contact details:", error);
+      }
+    };
+
+    fetchContactDetail();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -30,7 +56,7 @@ const Contact = () => {
       });
 
       setStatus("✅ Message sent successfully!");
-      setFormData({ name: "", email: "", subject: "", message: "" }); // reset form
+      setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
       console.error("Error sending message:", error);
       setStatus("❌ Failed to send message. Please try again.");
@@ -131,7 +157,10 @@ const Contact = () => {
 
               {/* Status Message */}
               {status && (
-                <p className="mt-3 text-center" style={{ color: status.includes("✅") ? "green" : "red" }}>
+                <p
+                  className="mt-3 text-center"
+                  style={{ color: status.includes("✅") ? "green" : "red" }}
+                >
                   {status}
                 </p>
               )}
@@ -146,18 +175,27 @@ const Contact = () => {
               className="img-fluid mb-4"
               style={{ maxHeight: "300px", objectFit: "cover" }}
             />
-            <h5 style={{ fontWeight: "600", color: "#000" }}>
-              <FaMapMarkerAlt className="me-2" /> Our Address
-            </h5>
-            <p style={{ color: "#555" }}>123 Healthcare Street, Indore, India</p>
-            <h5 style={{ fontWeight: "600", color: "#000" }}>
-              <FaPhoneAlt className="me-2" /> Phone
-            </h5>
-            <p style={{ color: "#555" }}>+91 98765 43210</p>
-            <h5 style={{ fontWeight: "600", color: "#000" }}>
-              <FaEnvelope className="me-2" /> Email
-            </h5>
-            <p style={{ color: "#555" }}>support@hospital.com</p>
+
+            {contactDetail ? (
+              <>
+                <h5 style={{ fontWeight: "600", color: "#000" }}>
+                  <FaMapMarkerAlt className="me-2" /> Our Address
+                </h5>
+                <p style={{ color: "#555" }}>{contactDetail.address}</p>
+
+                <h5 style={{ fontWeight: "600", color: "#000" }}>
+                  <FaPhoneAlt className="me-2" /> Phone
+                </h5>
+                <p style={{ color: "#555" }}>{contactDetail.phone}</p>
+
+                <h5 style={{ fontWeight: "600", color: "#000" }}>
+                  <FaEnvelope className="me-2" /> Email
+                </h5>
+                <p style={{ color: "#555" }}>{contactDetail.email}</p>
+              </>
+            ) : (
+              <p style={{ color: "#999" }}>Loading contact details...</p>
+            )}
           </div>
         </div>
       </div>
