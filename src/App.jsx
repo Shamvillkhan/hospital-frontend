@@ -18,6 +18,7 @@ import ContactForm from './components/ContactForm';
 import AppointmentForm from './components/DoctorAppointment';
 import StaffForm from './components/StaffForm';
 import AddDepartment from './components/AddDepartment';
+import Staff from './components/Staff';
 function App() {
  
 
@@ -42,6 +43,7 @@ function App() {
         <Route path="/doctorappp" element={<AppointmentForm />} />
         <Route path="/staffform" element={<StaffForm />} />
         <Route path="/departmentform" element={<AddDepartment />} />
+        <Route path="/allstaff" element={<Staff />} />
         
         <Route path="/update-blog/:id" element={<BlogForm />} />
       </Routes>
