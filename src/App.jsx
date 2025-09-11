@@ -1,4 +1,6 @@
 import './App.css'
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import {Routes, Route } from "react-router-dom";
 import Hero  from './components/Hero'
 import About from './components/About'
@@ -20,6 +22,8 @@ import StaffForm from './components/StaffForm';
 import AddDepartment from './components/AddDepartment';
 import Staff from './components/Staff';
 import HealthAppointment from './components/HealthAppointment';
+import PatientForm from './components/PatientForm';
+import PatientList from './components/PatientList';
 function App() {
  
 
@@ -46,7 +50,9 @@ function App() {
         <Route path="/departmentform" element={<AddDepartment />} />
         <Route path="/allstaff" element={<Staff />} />
         <Route path="/healthapp" element={<HealthAppointment />} />
-        
+        <Route path="/patientform" element={<PatientForm />} />
+              <Route path="/patientlist" element={<PatientList />} />
+        <Route path="/patient-form" element={<PatientForm />} />
         <Route path="/update-blog/:id" element={<BlogForm />} />
       </Routes>
 
