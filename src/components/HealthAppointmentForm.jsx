@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const HealthAppointment = () => {
+const HealthAppointmentForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     appointmentDate: "",
@@ -189,4 +189,4 @@ const HealthAppointment = () => {
   );
 };
 
-export default HealthAppointment;
+export default HealthAppointmentForm;

@@ -17,13 +17,21 @@ import Blogs from './components/Blogs';
 import BlogForm from './components/BlogForm';
 import DiseaseForm from './components/DiseaseForm';
 import ContactForm from './components/ContactForm';
-import AppointmentForm from './components/DoctorAppointment';
+import DoctorAppointmentForm from './components/DoctorAppointmentForm';
 import StaffForm from './components/StaffForm';
 import AddDepartment from './components/AddDepartment';
 import Staff from './components/Staff';
-import HealthAppointment from './components/HealthAppointment';
+import HealthAppointmentForm from './components/HealthAppointmentForm';
 import PatientForm from './components/PatientForm';
 import PatientList from './components/PatientList';
+import AddOrUpdateRoom from './components/AddOrUpdateRoom';
+import RoomList from './components/RoomList';
+import DoctorSlotsList from './components/DoctorSlot';
+  import AddSlot from './components/AddSlot';
+  import SlotsList from './components/SlotList';
+  import AddDoctorSlot from './components/AddDoctorSlot';
+  import AdminDashboard from './components/AdminDashboard';
+
 function App() {
  
 
@@ -32,6 +40,13 @@ function App() {
     <Navbar/>
 <Routes>
         <Route path="/" element={<Hero />} />
+        <Route path="/adddoctorslot" element={<AddDoctorSlot />} />
+        <Route path="/addslot" element={<AddSlot />} />
+        <Route path="/slotlist" element={<SlotsList />} />
+        <Route path="/addroom" element={<AddOrUpdateRoom/>} />
+        <Route path="/editroom/:id" element={<AddOrUpdateRoom />} />
+        <Route path="/rooms" element={<RoomList/>} />
+        <Route path="/doctorslotlist" element={<DoctorSlotsList/>} />
         <Route path="/cure" element={<Cure/>} />
         <Route path="/appointment" element={<Appointment/>}/>
         <Route path="/blogs" element={<Blogs/>}/>
@@ -41,19 +56,20 @@ function App() {
         <Route path="/faq" element={<FAQ/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="/add-blog" element={<BlogForm/>} />
-       
         <Route path="/add" element={<DiseaseForm />} />
         <Route path="/update/:id" element={<DiseaseForm />} />
         <Route path="/contactDet" element={<ContactForm />} />
-        <Route path="/doctorappp" element={<AppointmentForm />} />
+        <Route path="/doctorappp" element={<DoctorAppointmentForm />} />
         <Route path="/staffform" element={<StaffForm />} />
         <Route path="/departmentform" element={<AddDepartment />} />
         <Route path="/allstaff" element={<Staff />} />
-        <Route path="/healthapp" element={<HealthAppointment />} />
+        <Route path="/healthapp" element={<HealthAppointmentForm />} />
         <Route path="/patientform" element={<PatientForm />} />
               <Route path="/patientlist" element={<PatientList />} />
         <Route path="/patient-form" element={<PatientForm />} />
         <Route path="/update-blog/:id" element={<BlogForm />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
       </Routes>
 
   {/* <Testimonial/> */}

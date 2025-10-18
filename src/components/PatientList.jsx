@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
-  const [search, setSearch] = useState("");
-  const [count, setCount] = useState(null); // male/female count
+  const [searchTerm, setSearchTerm] = useState("");
+  const [countMessage, setCountMessage] = useState("");
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState("");
   const navigate = useNavigate();
 
   // Fetch all patients
@@ -37,28 +38,33 @@ const PatientList = () => {
     navigate("/patient-form", { state: { patient } });
   };
 
-  // Filtered patients by search
+  // Filter patients based on search
   const filteredPatients = patients.filter((p) => {
-    const term = search.toLowerCase();
+    const search = searchTerm.toLowerCase();
     return (
-      p.firstName.toLowerCase().includes(term) ||
-      p.lastName.toLowerCase().includes(term) ||
-      p.phone.toLowerCase().includes(term) ||
-      (p.email && p.email.toLowerCase().includes(term)) ||
-      (p.bloodType && p.bloodType.toLowerCase().includes(term)) ||
-      (p.gender && p.gender.toLowerCase().includes(term))
+      p.firstName?.toLowerCase().includes(search) ||
+      p.lastName?.toLowerCase().includes(search) ||
+      p.phone?.toLowerCase().includes(search) ||
+      p.email?.toLowerCase().includes(search) ||
+      p.bloodType?.toLowerCase().includes(search) ||
+      p.gender?.toLowerCase().includes(search)
     );
   });
 
-  // Count functions
-  const countMale = () => {
-    const males = patients.filter((p) => p.gender?.toLowerCase() === "male").length;
-    setCount(`Total Male Patients: ${males}`);
+  // Count by gender
+  const handleCountByGender = (gender) => {
+    const count = patients.filter((p) => p.gender === gender).length;
+    setCountMessage(`Total ${gender} patients: ${count}`);
   };
 
-  const countFemale = () => {
-    const females = patients.filter((p) => p.gender?.toLowerCase() === "female").length;
-    setCount(`Total Female Patients: ${females}`);
+  // Count by blood group
+  const handleCountByBloodGroup = () => {
+    if (!selectedBloodGroup) {
+      setCountMessage("Please select a blood group first.");
+      return;
+    }
+    const count = patients.filter((p) => p.bloodType === selectedBloodGroup).length;
+    setCountMessage(`Total patients with blood group ${selectedBloodGroup}: ${count}`);
   };
 
   return (
@@ -66,29 +72,50 @@ const PatientList = () => {
       <h2 className="mb-4">All Patients</h2>
 
       {/* Search Box */}
-      <div className="mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search by Name, Phone, Email, Blood Group or Gender"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Search by Name, Phone, Email, Gender, or Blood Group"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
 
       {/* Count Buttons */}
-      <div className="mb-3">
-        <button className="btn btn-info me-2" onClick={countMale}>
+      <div className="mb-3 d-flex align-items-center gap-2">
+        <button className="btn btn-info" onClick={() => handleCountByGender("Male")}>
           Count Male
         </button>
-        <button className="btn btn-success" onClick={countFemale}>
+        <button className="btn btn-info" onClick={() => handleCountByGender("Female")}>
           Count Female
+        </button>
+        <button className="btn btn-info" onClick={() => handleCountByGender("Other")}>
+          Count Other
+        </button>
+
+        {/* Blood Group Count */}
+        <select
+          className="form-select w-auto"
+          value={selectedBloodGroup}
+          onChange={(e) => setSelectedBloodGroup(e.target.value)}
+        >
+          <option value="">Select Blood Group</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+        </select>
+        <button className="btn btn-primary" onClick={handleCountByBloodGroup}>
+          Count by Blood Group
         </button>
       </div>
 
-      {/* Show Count */}
-      {count && <div className="alert alert-primary">{count}</div>}
+      {countMessage && <div className="alert alert-info">{countMessage}</div>}
 
+      {/* Table */}
       <table className="table table-bordered table-striped">
         <thead className="table-dark">
           <tr>
@@ -107,9 +134,7 @@ const PatientList = () => {
             filteredPatients.map((p) => (
               <tr key={p.patientId}>
                 <td>{p.patientId}</td>
-                <td>
-                  {p.firstName} {p.lastName}
-                </td>
+                <td>{p.firstName} {p.lastName}</td>
                 <td>{p.dateOfBirth}</td>
                 <td>{p.gender}</td>
                 <td>{p.phone}</td>
@@ -145,3 +170,4 @@ const PatientList = () => {
 };
 
 export default PatientList;
+  

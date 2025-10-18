@@ -107,6 +107,11 @@ const Navbar = () => {
                   Contact Us
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/admin" className="nav-link custom-link" style={styles.navLink}>
+                  AdminDashboard
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
