@@ -1,1 +1,1 @@
-export const BASE_URL = "https://hospital-frontend-indore-gxz2yg17s-shamvills-projects.vercel.app/";
+export const BASE_URL = "https://hospital-backend-4-os3g.onrender.com/hosp";

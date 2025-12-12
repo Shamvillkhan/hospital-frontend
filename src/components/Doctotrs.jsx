@@ -9,7 +9,7 @@ import {
   FaCalendarCheck,
   FaSearch,
 } from "react-icons/fa";
-
+import { BASE_URL } from "../api";
 const Doctors = () => {
   const [doctorsData, setDoctorsData] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -27,7 +27,7 @@ const Doctors = () => {
 
     // Fetch doctors
     axios
-      .get("http://localhost:6996/hosp/staff/getall")
+      .get(`${BASE_URL}/staff/getall`)
       .then((res) => {
         const doctors = res.data
           .filter((staff) => staff.role === "Doctor")
