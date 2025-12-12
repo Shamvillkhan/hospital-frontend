@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BASE_URL } from "../api";
 
 const AddDoctorSlot = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const AddDoctorSlot = () => {
   // Fetch Slots
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/slots/getall")
+      .get(`${BASE_URL}/slots/getall`)
       .then((res) => setSlots(res.data))
       .catch((err) => console.error("Error fetching slots:", err));
   }, []);

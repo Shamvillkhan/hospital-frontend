@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { BASE_URL } from "../api";
 const BlogForm = () => {
   const { id } = useParams(); // agar update hai toh id ayegi
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const BlogForm = () => {
     if (id) {
       setLoading(true);
       axios
-        .get(`http://localhost:6996/hosp/blogs/gett/${id}`)
+        .get(`${BASE_URL}/blogs/gett/${id}`)
         .then((res) => {
           setFormData({
             title: res.data.title || "",
@@ -56,7 +56,7 @@ const BlogForm = () => {
     }
 
     try {
-      await axios.post("http://localhost:6996/hosp/blogs/add", data, {
+      await axios.post(`${BASE_URL}/blogs/add`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -124,7 +124,7 @@ const BlogForm = () => {
               <div className="mt-2">
                 <p>Current Image:</p>
                 <img
-                  src={`http://localhost:6996/hosp/uploads/${id}`}
+                  src={`${BASE_URL}/uploads/${id}`}
                   alt="Old Blog"
                   style={{ width: "150px", borderRadius: "8px" }}
                 />

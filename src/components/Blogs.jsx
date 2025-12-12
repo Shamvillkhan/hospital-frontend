@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BASE_URL } from "../api";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -33,7 +34,7 @@ const Blogs = () => {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
     try {
-      await axios.delete(`http://localhost:6996/hosp/blogs/delete/${id}`);
+      await axios.delete(`${BASE_URL}/blogs/delete/${id}`);
       alert("Blog deleted successfully!");
       fetchBlogs();
     } catch (error) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import { BASE_URL } from "../api";
 const Appointment = () => {
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -11,7 +11,7 @@ const Appointment = () => {
   // Fetch doctors from backend
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/staff/getall")
+      .get(`${BASE_URL}/staff/getall`)
       .then((res) => {
         const doctorsOnly = res.data
           .filter((staff) => staff.role === "Doctor")
@@ -20,7 +20,7 @@ const Appointment = () => {
             name: `${doc.firstName} ${doc.lastName}`,
             specialty: doc.department?.name || "Unknown",
             image: doc.image
-              ? `http://localhost:6996/hosp/uploads/${doc.image}`
+              ? `${BASE_URL}/uploads/${doc.image}`
               : "https://via.placeholder.com/150",
           }));
         setDoctors(doctorsOnly);

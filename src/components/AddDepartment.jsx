@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BASE_URL } from "../api";
 
 const AddDepartment = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +48,7 @@ const AddDepartment = () => {
     if (!validate()) return;
 
     axios
-      .post("http://localhost:6996/hosp/departments/add", formData)
+      .post(`${BASE_URL}departments/add`, formData)
       .then((res) => {
         setSuccessMsg("Department added successfully!");
         setFormData({

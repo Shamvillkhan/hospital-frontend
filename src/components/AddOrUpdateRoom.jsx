@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../api";
 
 const AddOrUpdateRoom = () => {
   const { id } = useParams(); // agar id hai to update mode
@@ -18,7 +19,7 @@ const AddOrUpdateRoom = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axios.get(`http://localhost:6996/hosp/rooms/get/${id}`)
+      axios.get(`${BASE_URL}/rooms/get/${id}`)
         .then((res) => setRoom(res.data))
         .catch((err) => alert("Error fetching room data"))
         .finally(() => setLoading(false));
@@ -35,11 +36,11 @@ const AddOrUpdateRoom = () => {
     try {
       if (id) {
         // 🔄 Update mode
-        await axios.put(`http://localhost:6996/hosp/rooms/update/${id}`, room);
+        await axios.put(`${BASE_URL}/rooms/update/${id}`, room);
         alert("Room updated successfully!");
       } else {
         // ➕ Add mode
-        await axios.post("http://localhost:6996/hosp/rooms/add", room);
+        await axios.post(`${BASE_URL}/rooms/add`, room);
         alert("Room added successfully!");
         setRoom({ roomNumber: "", type: "GENERAL_WARD", status: "AVAILABLE" });
       }

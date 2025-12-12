@@ -16,6 +16,7 @@ const AdminDashboard = () => {
     rooms: 0,
     slots: 0,
     appointments: 0,
+    doctorAppointments: 0,
     blogs: 0,
     staff: 0,
     patients: 0,
@@ -31,7 +32,8 @@ const AdminDashboard = () => {
         const roomsRes = await axios.get("http://localhost:6996/hosp/rooms/count");
         console.log(roomsRes.data);
         const slotsRes = await axios.get("http://localhost:6996/hosp/slots/count");
-      //  const appointmentsRes = await axios.get("http://localhost:6996/hosp/appointments/count");
+        const appointmentsRes = await axios.get("http://localhost:6996/hosp/healthappointments/count");
+        const doctorAppointmentsRes = await axios.get("http://localhost:6996/hosp/doctorappointments/count"); // NEW API
         const blogsRes = await axios.get("http://localhost:6996/hosp/blogs/count");
         const staffRes = await axios.get("http://localhost:6996/hosp/staff/count");
         const patientsRes = await axios.get("http://localhost:6996/hosp/patients/count");
@@ -40,7 +42,8 @@ const AdminDashboard = () => {
           doctors: doctorsRes.data,
           rooms: roomsRes.data,
           slots: slotsRes.data,
-          //appointments: appointmentsRes.data,
+          appointments: appointmentsRes.data,
+           doctorAppointments: doctorAppointmentsRes.data,
           blogs: blogsRes.data,
           staff: staffRes.data,
           patients: patientsRes.data,
@@ -57,7 +60,7 @@ const AdminDashboard = () => {
     { title: "Doctor Management", actions: [{ name: "Add Doctor Slot", path: "/adddoctorslot" }, { name: "Doctor Slots List", path: "/doctorslotlist" }] },
     { title: "Room Management", actions: [{ name: "Add Room", path: "/addroom" }, { name: "Room List", path: "/rooms" }] },
     { title: "Slot Management", actions: [{ name: "Add Slot", path: "/addslot" }, { name: "All Slots", path: "/slotlist" }] },
-    { title: "Appointment Management", actions: [{ name: "Doctor Appointments", path: "/doctorappp" }, { name: "Health Appointments", path: "/healthapp" }] },
+    { title: "Appointment Management", actions: [{ name: "Add Doctor Appointments", path: "/doctorappp" }, { name: "Add Health Appointments", path: "/healthapp" }] },
     { title: "Blog & Info", actions: [{ name: "Add Blog", path: "/add-blog" }, { name: "All Blogs", path: "/blogs" }, { name: "Add Disease", path: "/add" }] },
     { title: "Staff & Department", actions: [{ name: "Add Staff", path: "/staffform" }, { name: "All Staff", path: "/allstaff" }, { name: "Add Department", path: "/departmentform" }] },
     { title: "Patient Management", actions: [{ name: "Add Patient", path: "/patientform" }, { name: "Patient List", path: "/patientlist" }] },
@@ -74,6 +77,7 @@ const AdminDashboard = () => {
           stats.rooms,
           stats.slots,
           stats.appointments,
+          stats.doctorAppointments, 
           stats.blogs,
           stats.staff,
           stats.patients,
@@ -125,6 +129,7 @@ const AdminDashboard = () => {
             { title: "Rooms", count: stats.rooms, icon: <FaBed color="#fff" /> },
             { title: "Slots", count: stats.slots, icon: <FaClipboardList color="#fff" /> },
             { title: "Appointments", count: stats.appointments, icon: <FaNotesMedical color="#fff" /> },
+            { title: "Doctor Appointments", count: stats.doctorAppointments, icon: <FaNotesMedical color="#fff" /> },
             { title: "Blogs", count: stats.blogs, icon: <FaBlog color="#fff" /> },
             { title: "Staff", count: stats.staff, icon: <FaUsers color="#fff" /> },
             { title: "Patients", count: stats.patients, icon: <FaPlusCircle color="#fff" /> },

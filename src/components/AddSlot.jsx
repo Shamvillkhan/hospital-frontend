@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BASE_URL } from "../api";
 
 const AddSlot = () => {
   const [slot, setSlot] = useState({
@@ -16,7 +17,7 @@ const AddSlot = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:6996/hosp/slots/add", slot);
+      await axios.post(`${BASE_URL}/slots/add`, slot);
       alert("Slot added successfully!");
       setSlot({ slotName: "", startTime: "", endTime: "" }); // reset form
     } catch (err) {
