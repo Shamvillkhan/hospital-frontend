@@ -1,1 +1,1 @@
-export const BASE_URL = "https://hospital-backend-4-os3g.onrender.com/hosp";
+export const BASE_URL = "https://hospital-backend-4-os3g.onrender.com";

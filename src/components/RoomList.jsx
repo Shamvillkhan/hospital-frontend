@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const RoomList = () => {
@@ -10,7 +10,7 @@ const RoomList = () => {
   // 🔍 Fetch all rooms
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:6996/hosp/rooms/getall");
+      const res = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/rooms/getall");
       setRooms(res.data);
     } catch (error) {
       console.error(error);
@@ -28,7 +28,7 @@ const RoomList = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this room?")) {
       try {
-        await axios.delete(`http://localhost:6996/hosp/rooms/delete/${id}`);
+        await axios.delete(`https://hospital-backend-3-0pon.onrender.com/hosp/rooms/delete/${id}`);
         alert("Room deleted successfully");
         fetchRooms(); // refresh list
       } catch (error) {

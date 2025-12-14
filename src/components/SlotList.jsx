@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 
 const SlotsList = () => {
   const [slots, setSlots] = useState([]);
@@ -11,7 +11,7 @@ const SlotsList = () => {
 
   const fetchSlots = async () => {
     try {
-      const res = await axios.get("http://localhost:6996/hosp/slots/getall");
+      const res = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/slots/getall");
       setSlots(res.data);
     } catch (err) {
       console.error("Error fetching slots:", err);

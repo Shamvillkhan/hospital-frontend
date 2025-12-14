@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const PatientForm = () => {
   const location = useLocation();
@@ -40,11 +40,11 @@ const PatientForm = () => {
     try {
       if (editingPatient) {
         // Update patient
-        await axios.put(`http://localhost:6996/hosp/patients/update/${formData.patientId}`, formData);
+        await axios.put(`https://hospital-backend-3-0pon.onrender.com/hosp/patients/update/${formData.patientId}`, formData);
         setMessage("Patient updated successfully!");
       } else {
         // Create new patient
-        await axios.post("http://localhost:6996/hosp/patients/add", formData);
+        await axios.post("https://hospital-backend-3-0pon.onrender.com/hosp/patients/add", formData);
         setMessage("Patient registered successfully!");
       }
 

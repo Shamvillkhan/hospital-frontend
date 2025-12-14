@@ -17,7 +17,7 @@ const AddSlot = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${BASE_URL}/slots/add`, slot);
+      await axios.post(`https://hospital-backend-3-0pon.onrender.com/hosp/slots/add`, slot);
       alert("Slot added successfully!");
       setSlot({ slotName: "", startTime: "", endTime: "" }); // reset form
     } catch (err) {

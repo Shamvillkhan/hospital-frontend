@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 
 const DoctorAppointmentForm = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +22,7 @@ const DoctorAppointmentForm = () => {
   // 🔹 Fetch all doctors
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/staff/doctors")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/staff/doctors")
       .then((res) => setDoctors(res.data))
       .catch((err) => console.error("Error fetching doctors:", err));
   }, []);
@@ -30,7 +30,7 @@ const DoctorAppointmentForm = () => {
   // 🔹 Fetch all doctor slots
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/doctorslots/getall")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/doctorslots/getall")
       .then((res) => setSlots(res.data))
       .catch((err) => console.error("Error fetching slots:", err));
   }, []);
@@ -52,7 +52,7 @@ const DoctorAppointmentForm = () => {
       };
 
       await axios.post(
-        "http://localhost:6996/hosp/doctorappointments/add",
+        "https://hospital-backend-3-0pon.onrender.com/hosp/doctorappointments/add",
         payload
       );
 

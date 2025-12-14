@@ -21,13 +21,13 @@ const Doctors = () => {
   useEffect(() => {
     // Fetch departments
     axios
-      .get("http://localhost:6996/hosp/departments/getall")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/departments/getall")
       .then((res) => setDepartments(res.data))
       .catch((err) => console.error("Error fetching departments:", err));
 
     // Fetch doctors
     axios
-      .get(`${BASE_URL}/staff/getall`)
+      .get(`https://hospital-backend-3-0pon.onrender.com/hosp/staff/getall`)
       .then((res) => {
         const doctors = res.data
           .filter((staff) => staff.role === "Doctor")
@@ -120,7 +120,7 @@ const Doctors = () => {
                   <img
                     src={
                       doctor.image
-                        ? `http://localhost:6996/hosp/uploads/${doctor.image}`
+                        ? `https://hospital-backend-3-0pon.onrender.com/hosp/uploads/${doctor.image}`
                         : "https://via.placeholder.com/300x200"
                     }
                     alt={doctor.firstName + " " + doctor.lastName}

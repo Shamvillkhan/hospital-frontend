@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DiseaseForm = () => {
   const { id } = useParams();
@@ -13,12 +13,12 @@ const DiseaseForm = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:6996/hosp/disease/gett/${id}`)
+        .get(`https://hospital-backend-3-0pon.onrender.com/hosp/disease/gett/${id}`)
         .then((res) => {
           setDiseaseName(res.data.diseaseName);
           setCurePrecaution(res.data.curePrecaution);
           if (res.data.image) {
-            setPreview(`http://localhost:6996/hosp/uploads/${res.data.image}`);
+            setPreview(`https://hospital-backend-3-0pon.onrender.com/hosp/uploads/${res.data.image}`);
           }
         })
         .catch((err) => console.error("Error fetching disease:", err));
@@ -44,14 +44,14 @@ const DiseaseForm = () => {
       if (id) {
         // Update
         await axios.put(
-          `http://localhost:6996/hosp/disease/update/${id}`,
+          `https://hospital-backend-3-0pon.onrender.com/hosp/disease/update/${id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
       } else {
         // Add
         await axios.post(
-          "http://localhost:6996/hosp/disease/add",
+          "https://hospital-backend-3-0pon.onrender.com/hosp/disease/add",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

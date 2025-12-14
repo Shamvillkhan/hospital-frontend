@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 import {
-  FaUser,
-  FaEnvelope,
-  FaTag,
-  FaCommentDots,
-  FaPhoneAlt,
-  FaMapMarkerAlt,
+    FaCommentDots,
+    FaEnvelope,
+    FaMapMarkerAlt,
+    FaPhoneAlt,
+    FaTag,
+    FaUser,
 } from "react-icons/fa";
 
 const Contact = () => {
@@ -26,7 +26,7 @@ const Contact = () => {
     const fetchContactDetail = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:6996/hosp/contactdetail/active"
+          "https://hospital-backend-3-0pon.onrender.com/hosp/contactdetail/active"
         );
         if (res.data && res.data.length > 0) {
           setContactDetail(res.data[0]); // first active contact
@@ -51,7 +51,7 @@ const Contact = () => {
     setStatus("");
 
     try {
-      await axios.post("http://localhost:6996/hosp/contactus/add", formData, {
+      await axios.post("https://hospital-backend-3-0pon.onrender.com/hosp/contactus/add", formData, {
         headers: { "Content-Type": "application/json" },
       });
 

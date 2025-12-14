@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Cure = () => {
@@ -9,7 +9,7 @@ const Cure = () => {
 
   const fetchDiseases = async () => {
     try {
-      const response = await axios.get("http://localhost:6996/hosp/disease/getAll");
+      const response = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/disease/getAll");
       setDiseases(response.data);
     } catch (error) {
       console.error("Error fetching diseases:", error);
@@ -23,7 +23,7 @@ const Cure = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this disease?")) {
       try {
-        await axios.delete(`http://localhost:6996/hosp/disease/delete/${id}`);
+        await axios.delete(`https://hospital-backend-3-0pon.onrender.com/hosp/disease/delete/${id}`);
         setDiseases(diseases.filter((d) => d.id !== id));
       } catch (error) {
         console.error("Error deleting disease:", error);
@@ -44,7 +44,7 @@ const Cure = () => {
                 <img
                   src={
                     disease.image
-                      ? `http://localhost:6996/hosp/uploads/${disease.image}`
+                      ? `https://hospital-backend-3-0pon.onrender.com/hosp/uploads/${disease.image}`
                       : "https://via.placeholder.com/300x180?text=No+Image"
                   }
                   className="card-img-top"

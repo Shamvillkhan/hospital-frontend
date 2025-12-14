@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 
 const DoctorSlotsList = () => {
   const [doctorSlots, setDoctorSlots] = useState([]);
@@ -14,7 +14,7 @@ const DoctorSlotsList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/doctorslots/getall")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/doctorslots/getall")
       .then((res) => setDoctorSlots(res.data)) // direct array now
       .catch((err) => console.error("Error fetching doctor slots:", err));
   }, []);

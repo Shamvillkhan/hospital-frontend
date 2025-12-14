@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const StaffForm = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +20,7 @@ const StaffForm = () => {
   // Fetch departments on load
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/departments/getall")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/departments/getall")
       .then((res) => setDepartments(res.data))
       .catch((err) => console.error("Error fetching departments:", err));
   }, []);
@@ -52,7 +52,7 @@ const StaffForm = () => {
     if (image) form.append("image", image);
 
     axios
-      .post("http://localhost:6996/hosp/staff/add", form)
+      .post("https://hospital-backend-3-0pon.onrender.com/hosp/staff/add", form)
       .then(() => {
         alert("✅ Staff added successfully!");
         setFormData({

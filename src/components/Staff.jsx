@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
 
 const Staff = () => {
   const [staff, setStaff] = useState([]);
@@ -9,7 +9,7 @@ const Staff = () => {
   // Fetch all staff from backend
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/staff/getall")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/staff/getall")
       .then((res) => {
         const staffList = res.data.map((member) => ({
           id: member.staffId,
@@ -17,7 +17,7 @@ const Staff = () => {
           role: member.role,
           department: member.department?.name || "Unknown",
           image: member.image
-            ? `http://localhost:6996/hosp/uploads/${member.image}`
+            ? `https://hospital-backend-3-0pon.onrender.com/hosp/uploads/${member.image}`
             : "https://via.placeholder.com/150",
         }));
         setStaff(staffList);

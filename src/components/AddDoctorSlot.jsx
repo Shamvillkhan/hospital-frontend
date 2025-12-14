@@ -18,7 +18,7 @@ const AddDoctorSlot = () => {
   // Fetch Slots
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/slots/getall`)
+      .get(`https://hospital-backend-3-0pon.onrender.com/hosp/slots/getall`)
       .then((res) => setSlots(res.data))
       .catch((err) => console.error("Error fetching slots:", err));
   }, []);
@@ -26,7 +26,7 @@ const AddDoctorSlot = () => {
   // Fetch Staff (Doctors)
   useEffect(() => {
     axios
-      .get("http://localhost:6996/hosp/staff/doctors")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/staff/doctors")
       .then((res) => setStaff(res.data))
       .catch((err) => console.error("Error fetching staff:", err));
   }, []);
@@ -42,7 +42,7 @@ const AddDoctorSlot = () => {
         isActive: formData.isActive,
       };
 
-      await axios.post("http://localhost:6996/hosp/doctorslots/add", payload);
+      await axios.post("https://hospital-backend-3-0pon.onrender.com/hosp/doctorslots/add", payload);
       setMessage("Doctor slot created successfully!");
       setFormData({ slotId: "", staffId: "", dayOfWeek: "", isActive: true });
     } catch (error) {

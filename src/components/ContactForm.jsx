@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:6996/hosp/contactdetail/add", formData);
+      const res = await axios.post("https://hospital-backend-3-0pon.onrender.com/hosp/contactdetail/add", formData);
       setMessage("✅ Contact saved successfully!");
       console.log(res.data);
     } catch (err) {

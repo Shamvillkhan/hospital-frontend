@@ -48,7 +48,7 @@ const AddDepartment = () => {
     if (!validate()) return;
 
     axios
-      .post(`${BASE_URL}departments/add`, formData)
+      .post(`https://hospital-backend-3-0pon.onrender.com/hosp/departments/add`, formData)
       .then((res) => {
         setSuccessMsg("Department added successfully!");
         setFormData({

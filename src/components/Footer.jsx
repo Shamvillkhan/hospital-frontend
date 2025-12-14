@@ -71,7 +71,7 @@ const Footer = () => {
   useEffect(() => {
     // Fetch only active contact detail from backend
     axios
-      .get("http://localhost:6996/hosp/contactdetail/active")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/contactdetail/active")
       .then((res) => {
         setContact(res.data[0]); // assuming you get an array, take first
       })

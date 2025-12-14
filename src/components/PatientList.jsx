@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const PatientList = () => {
@@ -16,7 +16,7 @@ const PatientList = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get("http://localhost:6996/hosp/patients/getall");
+      const response = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/patients/getall");
       setPatients(response.data);
     } catch (error) {
       console.error("Error fetching patients:", error);
@@ -26,7 +26,7 @@ const PatientList = () => {
   // Delete patient
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:6996/hosp/patients/delete/${id}`);
+      await axios.delete(`https://hospital-backend-3-0pon.onrender.com/hosp/patients/delete/${id}`);
       setPatients(patients.filter((p) => p.patientId !== id));
     } catch (error) {
       console.error("Error deleting patient:", error);

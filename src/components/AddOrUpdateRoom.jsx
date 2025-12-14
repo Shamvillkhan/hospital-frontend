@@ -36,11 +36,11 @@ const AddOrUpdateRoom = () => {
     try {
       if (id) {
         // 🔄 Update mode
-        await axios.put(`${BASE_URL}/rooms/update/${id}`, room);
+        await axios.put(`https://hospital-backend-3-0pon.onrender.com/hosp/rooms/update/${id}`, room);
         alert("Room updated successfully!");
       } else {
-        // ➕ Add mode
-        await axios.post(`${BASE_URL}/rooms/add`, room);
+        
+        await axios.post(`https://hospital-backend-3-0pon.onrender.com/hosp/rooms/add`, room);
         alert("Room added successfully!");
         setRoom({ roomNumber: "", type: "GENERAL_WARD", status: "AVAILABLE" });
       }

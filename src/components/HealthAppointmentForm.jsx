@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
 
 const HealthAppointmentForm = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const HealthAppointmentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:6996/hosp/healthappointments/add", formData);
+      await axios.post("https://hospital-backend-3-0pon.onrender.com/hosp/healthappointments/add", formData);
       setMessage("✅ Appointment created successfully!");
       setFormData({
         name: "",

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../api";
 
 const Blogs = () => {
@@ -11,10 +11,10 @@ const Blogs = () => {
   const isAdmin = true; // 👉 abhi ke liye hardcode
   const navigate = useNavigate();
 
-  // Fetch blogs
+ 
   const fetchBlogs = () => {
     axios
-      .get("http://localhost:6996/hosp/blogs/getAll")
+      .get("https://hospital-backend-3-0pon.onrender.com/hosp/blogs/getAll")
       .then((response) => {
         setBlogs(response.data);
         setLoading(false);
@@ -77,7 +77,7 @@ const Blogs = () => {
                 <img
                   src={
                     blog.image
-                      ? `http://localhost:6996/hosp/uploads/${blog.image}`
+                      ? `https://hospital-backend-3-0pon.onrender.com/hosp/uploads/${blog.image}`
                       : "https://via.placeholder.com/400x200"
                   }
                   className="card-img-top"

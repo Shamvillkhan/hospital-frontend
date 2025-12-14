@@ -28,15 +28,15 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const doctorsRes = await axios.get("http://localhost:6996/hosp/staff/doctors/count");console.log(doctorsRes.data);
-        const roomsRes = await axios.get("http://localhost:6996/hosp/rooms/count");
+        const doctorsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/staff/doctors/count");console.log(doctorsRes.data);
+        const roomsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/rooms/count");
         console.log(roomsRes.data);
-        const slotsRes = await axios.get("http://localhost:6996/hosp/slots/count");
-        const appointmentsRes = await axios.get("http://localhost:6996/hosp/healthappointments/count");
-        const doctorAppointmentsRes = await axios.get("http://localhost:6996/hosp/doctorappointments/count"); // NEW API
-        const blogsRes = await axios.get("http://localhost:6996/hosp/blogs/count");
-        const staffRes = await axios.get("http://localhost:6996/hosp/staff/count");
-        const patientsRes = await axios.get("http://localhost:6996/hosp/patients/count");
+        const slotsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/slots/count");
+        const appointmentsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/healthappointments/count");
+        const doctorAppointmentsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/doctorappointments/count"); // NEW API
+        const blogsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/blogs/count");
+        const staffRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/staff/count");
+        const patientsRes = await axios.get("https://hospital-backend-3-0pon.onrender.com/hosp/patients/count");
 
         setStats({
           doctors: doctorsRes.data,
